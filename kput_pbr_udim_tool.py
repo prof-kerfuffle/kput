@@ -28,6 +28,18 @@ import os
 import importlib
 
 
+def get_file_type(file_name):
+    extension = file_name[file_name.rfind(".") + 1:]
+    if extension == "png":
+        return "PNG"
+    elif extension == "exr":
+        return "OPEN_EXR"
+    elif extension == "jpg":
+        return "JPEG"
+    elif extension == "jpeg":
+        return "JPEG"
+
+
 def create_missing_1001_textures(tex_path, texture_res):
     """
     checks whether all textures in the tex_path have a 1001 frame, and creates
@@ -44,16 +56,29 @@ def create_missing_1001_textures(tex_path, texture_res):
 
     for main in file_sequences:
         found_1001 = False
+        some_frame_file_name = ""
         for sub in main:
+            some_frame_file_name = sub
             if kfile_utils.get_last_digits(sub, "_") == "1001":
                 found_1001 = True
                 continue
         if found_1001 is False:
+            extension_for_name = kfile_utils.get_extension(
+                some_frame_file_name)
+            extension_type = get_file_type(some_frame_file_name)
+
             tex_path = dir + "\\" + \
-                kfile_utils.get_str_wo_last_part(main[0], "_") + "_1001.png"
+                kfile_utils.get_filename_wo_digits_or_extension(
+                    main[0], "_") + kfile_utils.get_divider_pre_digits(
+                        main[0], "_") + "1001." + extension_for_name
             print("sequence lacks 1001, creating texture: ", tex_path)
+
+            use_float = False
+            if extension_type == "OPEN_EXR":
+                use_float = True
+
             ktexture_utils.create_empty_texture(
-                texture_res, texture_res, tex_path)
+                texture_res, texture_res, tex_path, extension_type, use_float)
 
             log.append(tex_path)
 
@@ -580,10 +605,9 @@ class Main_panel(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_label = "KPUT - PBR UDIM Tool"
     bl_idname = "KPUT_PT_main"
-    bl_space_type = "VIEW_3D"
+    bl_space_type = "NODE_EDITOR"
     bl_region_type = "UI"
     bl_category = "KPUT"
-#    bl_context = "object"
 
     def draw(self, context):
         scene = context.scene
@@ -613,7 +637,7 @@ class UDIM_panel(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_label = "UDIM Based Textures"
     bl_idname = "PBRUI_UDIM_PT_panelid"
-    bl_space_type = "VIEW_3D"
+    bl_space_type = "NODE_EDITOR"
     bl_region_type = "UI"
     bl_parent_id = "KPUT_PT_main"
 
@@ -631,7 +655,7 @@ class Advanced_options_panel(bpy.types.Panel):
     """Creates a Panel in the Object properties window"""
     bl_label = "Advanced Options"
     bl_idname = "PBRUI_ADV_PT_panelid"
-    bl_space_type = "VIEW_3D"
+    bl_space_type = "NODE_EDITOR"
     bl_region_type = "UI"
     bl_options = {'DEFAULT_CLOSED'}
     bl_parent_id = "KPUT_PT_main"

@@ -12,37 +12,37 @@ def create_udim_texture_node(nodes, dir, file, pos, color_space, color, udim):
     loaded
     """
 
-    print("** create udim texture node 01")
-    print('file')
-    print(file)
+#    print("** create udim texture node 01")
+#    print('file')
+#    print(file)
 
-    print('dir')
-    print(dir)
+#    print('dir')
+#    print(dir)
     path = dir + file
-    print('path')
-    print(path)
+#    print('path')
+#    print(path)
 
-    print("pre open")
+#    print("pre open")
     imaage = bpy.ops.image.open(
         filepath=path,
         directory=dir,
         files=[{"name": file}],
         show_multiview=False)
-    print(imaage)
-    print("post open")
+#    print(imaage)
+#    print("post open")
 
     return_node = nodes.new("ShaderNodeTexImage")
 
-    print("bpy.data.images")
-    for i in bpy.data.images:
-        print(i)
-    print("-- post bpy.data.images")
+#    print("bpy.data.images")
+#    for i in bpy.data.images:
+#        print(i)
+#    print("-- post bpy.data.images")
 
-    print("pre bpy.data.images[file]")
-    print('file')
-    print(file)
+#    print("pre bpy.data.images[file]")
+#    print('file')
+#    print(file)
     return_node.image = bpy.data.images[file]
-    print("-- post bpy.data.images[file]")
+#    print("-- post bpy.data.images[file]")
 
     if udim:
         return_node.image.source = 'TILED'

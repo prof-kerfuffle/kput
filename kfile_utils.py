@@ -72,7 +72,8 @@ def get_file_seqs(dir, divider):
         timeout += 1
         # print (timeout)
         popped = files_w_digits.pop(0)
-        seq_wo_digits = get_str_wo_last_part(popped, "_")
+        seq_wo_digits = get_filename_wo_digits_or_extension(popped, "_") 
+        # get_str_wo_last_part(popped, "_")
 
         found_seq_i = -1
 
@@ -87,7 +88,8 @@ def get_file_seqs(dir, divider):
             for seq_name_container_i in range(len(seq_names_container)):
                 # for s in seq_names:
                 for file_name in seq_names_container[seq_name_container_i]:
-                    if seq_wo_digits == get_str_wo_last_part(file_name, "_"):
+                    if seq_wo_digits == get_filename_wo_digits_or_extension(
+                            file_name, "_"):
                         found_seq_i = seq_name_container_i
                         continue
                     if found_seq_i >= 0:
@@ -101,25 +103,22 @@ def get_file_seqs(dir, divider):
             else:
                 seq_names_container.append([popped])
 
-    # print ("seq seq_names_container")
-    # print (seq_names_container)
-
-    # for f in files_w_digits:
-
-    # if (file.find (str) == -1):
-    #     return_list.append (file)
-    #     #files_wo_str.append ()
-    #     return_list.append (file)
-
-    # print (files_w_digits)
     return seq_names_container
 
-# checks if the last part of the name consists of digits
-# example: name_1001
+
+def get_extension(str):
+    return str[str.rfind(".") + 1:]
+
+
+def get_file_wo_extension(str):
+    return str[:str.rfind(".")]
 
 
 def has_digits(str, divider):
+
     digits = get_last_digits(str, divider)
+    print("---------- digits")
+    print(digits)
     if digits.isnumeric():
         return True
     else:
@@ -127,30 +126,27 @@ def has_digits(str, divider):
 
 
 def get_last_digits(str, divider):
-    split = str.split(divider)
-    return_str = split[len(split)-1]
-    return_str = return_str.split(".")[0]
+    """
+    Will currently return anything before the extension, so a really crappy
+    implementation
+    """
+    # Hacky way of checking files with spaces and dots, by turning them into
+    # underscores
+    str_wo_extension = get_file_wo_extension(str)
+    str_only_underscores = str_wo_extension.replace(" ", "_")
+    str_only_underscores = str_wo_extension.replace(".", "_")
+
+    return_str = str_only_underscores[str_only_underscores.rfind("_") + 1:]
+
     return return_str
 
 
-def get_str_wo_digits(str, divider):
-    split = str.split(divider)
-    appended = ""
-
-    for i in range(len(split)):
-        #    for f in split:
-        appended += split[i]
-    return_str = appended
-    # return_str = split [len(split)-1]
-    # return_str = return_str.split (".")[0]
-    return return_str
+def get_filename_wo_digits_or_extension(str, divider):
+    digits = get_last_digits(str, divider)
+    return str[:str.find(digits)-1]
 
 
-def get_str_wo_last_part(str, separator):
-    return_str = ""
-
-    #
-    # str.rfind will return the last instance of a str
-    #
-    return_str = str[:str.rfind(separator)]
-    return return_str
+def get_divider_pre_digits(str, divider):
+    digits = get_last_digits(str, divider)
+    digits_start = str.find(digits)
+    return str[digits_start-1: digits_start]
