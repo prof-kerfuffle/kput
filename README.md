@@ -1,12 +1,10 @@
 # KPUT - PBR UDIM Tool
 
-A convenience tool that automates the creation of materials from textures, with UDIM support.
+A convenience tool that automates the creation of materials from texture maps, with UDIM support.
 
-1. Select the folder with the textures:
+Example exporting two UDIM based materials from Substance Painter to Blender:
 
-2. Select whether you want the current materials to be replaced by the new ones (unchecked will create materials with the ending: "_imported")
-
-3. Press Create Materials
+![Substance_to_blender_example](http://marcus.krupa.se/blender/addons/kput/instructional/kput_substance_import_a01.gif)
 
 # Naming Guidelines
 
@@ -25,6 +23,10 @@ For UDIM textures, make sure they end with a tile number of the kind:
   
     Skin_Roughness_1001.png
     Skin_Opacity_1003.png
+
+# Good to know
+
+In order for Blender to recognize UDIM textures, it seems that currently (2.9) there has to be a 1001 tile present. To deal with this, the addon will create blank 1001 textures if one isn't found. You can disable this in the Advanced options section, if preferred.
 
 # Current Limitations
 
