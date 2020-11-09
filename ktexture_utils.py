@@ -11,9 +11,6 @@ def create_empty_texture(res_x, res_y, path, file_format="PNG",
         "temp_empty_image", width=res_x, height=res_y, alpha=use_alpha, 
         float_buffer=use_float)
 
-    # new(name, width, height, alpha=False, float_buffer=False, stereo3d=False,
-    # is_data=False, tiled=False)
-
     print('creating empty texture with path:')
     print(path)
 

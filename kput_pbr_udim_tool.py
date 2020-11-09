@@ -253,6 +253,13 @@ def create_materials(
         tex_coordinate_node = nodes.new("ShaderNodeTexCoord")
         tex_coordinate_node.location = [x_offset - 300, 0]
 
+        # In case there existed multiple shaders in material before any
+        # replacement, connect the shader to the output to ensure that
+        # something is connected to the surface input
+
+        output_links = links.new(material_output.inputs['Surface'],
+                                 shader_node.outputs["BSDF"])
+
         log.append("")
         log.append("Name: " + material_name)
         log_material_list = []
@@ -304,7 +311,7 @@ def create_materials(
         if file_name_elements:
             node = knode_utils.create_udim_texture_node(
                 nodes, texture_dir, file_name_elements['file_name'],
-                [x_offset, y_coord - (y_distance * 3)], None,
+                [x_offset, y_coord - (y_distance * 3)], 'Non-Color',
                 (0.6, 0.6, 0.5), use_udims)
 
             links.new(node.inputs["Vector"], tex_coordinate_node.outputs["UV"])

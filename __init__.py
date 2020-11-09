@@ -1,4 +1,5 @@
 # Copyright (C) 2020 Marcus Krupa
+# prof_kerfuffle@protonmail.com
 
 # ##### BEGIN GPL LICENSE BLOCK #####
 #
