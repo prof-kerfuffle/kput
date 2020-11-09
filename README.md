@@ -6,7 +6,7 @@ Example exporting two UDIM based materials from Substance Painter to Blender:
 
 ![Substance_to_blender_example](http://marcus.krupa.se/blender/addons/kput/instructional/kput_substance_import_a01.gif)
 
-![Dowload zip](https://www.dropbox.com/s/kavyr8ez0e89zl8/kput_pbr_udim_tool.zip?dl=1)
+[Download zip](https://www.dropbox.com/s/kavyr8ez0e89zl8/kput_pbr_udim_tool.zip?dl=1)
 
 # Naming Guidelines
 
